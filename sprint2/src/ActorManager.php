@@ -39,9 +39,9 @@ class ActorManager {
     }
     
     public function addActor($name) {
-        // Controleer eerst op duplicaten
+        
         if ($this->actorExists($name)) {
-            return false; // Duplicate found
+            return false; 
         }
         
         $sql = "INSERT INTO actors (name) VALUES (?)";

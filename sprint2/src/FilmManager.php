@@ -27,9 +27,9 @@ class FilmManager {
     }
     
     public function addFilm($name, $genre) {
-        // Controleer eerst op duplicaten
+        
         if ($this->filmExists($name, $genre)) {
-            return false; // Duplicate found
+            return false; 
         }
         
         $sql = "INSERT INTO films (name, genre) VALUES (?, ?)";

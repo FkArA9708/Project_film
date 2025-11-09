@@ -8,20 +8,20 @@ require_once 'src/FilmManager.php';
 require_once 'src/FilmActorManager.php';
 require_once 'src/Home.php';
 
-// Initialize database and managers
+
 $database = new Database();
 $filmManager = new FilmManager($database);
 $actorManager = new ActorManager($database);
 $filmActorManager = new FilmActorManager($database);
 $home = new Home($filmManager, $actorManager, $filmActorManager);
 
-// Error messages
+
 $error = '';
 
-// Handle form submissions
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['add_film'])) {
-        // Valideer input lengte
+        
         if (strlen($_POST['film_name']) > 30 || strlen($_POST['film_genre']) > 30) {
             $error = "Filmnaam en genre mogen maximaal 30 karakters zijn.";
         } else {
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Handle delete film requests
+    
     if (isset($_POST['delete_film'])) {
         $filmManager->deleteFilm($_POST['film_id']);
         header('Location: index.php?page=koppelen');
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     if (isset($_POST['add_actor'])) {
-        // Valideer input lengte
+        
         if (strlen($_POST['actor_name']) > 30) {
             $error = "Acteurnaam mag maximaal 30 karakters zijn.";
         } else {
@@ -68,20 +68,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Get current page
+
 $page = $_GET['page'] ?? 'home';
 
-// Include header
+
 include 'templates/header.php';
 
-// Toon error message als die er is
+
 if (!empty($error)) {
     echo '<div style="background: #f44336; color: white; padding: 1rem; border-radius: 5px; margin-bottom: 1rem;">';
     echo htmlspecialchars($error);
     echo '</div>';
 }
 
-// Include current page
+
 switch ($page) {
     case 'film':
         include 'templates/film_toevoegen.php';
@@ -97,6 +97,6 @@ switch ($page) {
         break;
 }
 
-// Include footer
+
 include 'templates/footer.php';
 ?>

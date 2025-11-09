@@ -1,5 +1,5 @@
 <?php
-// CORRECTIE: PDO instantie moet beschikbaar zijn
+
 class Database {
     private $pdo;
     

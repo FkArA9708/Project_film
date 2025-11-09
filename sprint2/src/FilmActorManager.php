@@ -14,9 +14,9 @@ class FilmActorManager {
     }
     
     public function linkActorToFilm($film_id, $actor_id) {
-        // Controleer eerst op duplicaten
+        
         if ($this->linkExists($film_id, $actor_id)) {
-            return false; // Duplicate found
+            return false; 
         }
         
         $sql = "INSERT INTO film_actors (film_id, actor_id) VALUES (?, ?)";
