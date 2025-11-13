@@ -1,29 +1,36 @@
 <?php
 class Home {
-    private $filmManager;
-    private $actorManager;
-    private $filmActorManager;
+    private $database;
     
-    public function __construct($filmManager, $actorManager, $filmActorManager) {
-        $this->filmManager = $filmManager;
-        $this->actorManager = $actorManager;
-        $this->filmActorManager = $filmActorManager;
+    public function __construct(Database $db) {
+        $this->database = $db;
     }
     
-    public function index() {
+    public function getRecentFilmsWithActors() {
         
-        $recentFilms = $this->filmManager->getAllFilms();
+        $sql = "SELECT f.*, GROUP_CONCAT(a.name SEPARATOR ', ') as actor_names
+                FROM films f 
+                LEFT JOIN film_actors fa ON f.film_id = fa.film_id 
+                LEFT JOIN actors a ON fa.actor_id = a.id 
+                GROUP BY f.film_id 
+                ORDER BY f.created_at DESC";
         
-        
-        $filmsWithActors = [];
-        foreach ($recentFilms as $film) {
-            $actors = $this->filmActorManager->getFilmActors($film->getId());
-            $filmsWithActors[] = [
-                'film' => $film,
-                'actors' => $actors
-            ];
-        }
-        
-        return $filmsWithActors;
+        $stmt = $this->database->getPdo()->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+    
+    public function getFilmCount() {
+        $sql = "SELECT COUNT(*) as count FROM films";
+        $stmt = $this->database->getPdo()->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchColumn();
+    }
+    
+    public function getActorCount() {
+        $sql = "SELECT COUNT(*) as count FROM actors";
+        $stmt = $this->database->getPdo()->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchColumn();
     }
 }

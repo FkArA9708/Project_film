@@ -11,7 +11,7 @@ class FilmActor {
         $this->created_at = $created_at;
     }
     
-    
+    // Getters
     public function getFilmId() { return $this->film_id; }
     public function getActorId() { return $this->actor_id; }
     public function getCreatedAt() { return $this->created_at; }

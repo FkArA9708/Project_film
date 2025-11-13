@@ -13,7 +13,7 @@ $database = new Database();
 $filmManager = new FilmManager($database);
 $actorManager = new ActorManager($database);
 $filmActorManager = new FilmActorManager($database);
-$home = new Home($filmManager, $actorManager, $filmActorManager);
+$home = new Home($database); 
 
 
 $error = '';

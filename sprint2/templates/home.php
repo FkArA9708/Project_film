@@ -15,7 +15,9 @@
 </div>
 
 <?php
-$filmsWithActors = $home->index();
+$filmsWithActors = $home->getRecentFilmsWithActors();
+$filmCount = $home->getFilmCount();
+$actorCount = $home->getActorCount();
 ?>
 
 <h1>Laatst toegevoegde films</h1>
@@ -23,14 +25,21 @@ $filmsWithActors = $home->index();
 <div class="films-container">
     <?php foreach ($filmsWithActors as $filmData): ?>
         <div class="film-item">
-            <h2 class="film-title"><?= htmlspecialchars($filmData['film']->getName()) ?> 
-                <span class="film-genre">(<?= htmlspecialchars($filmData['film']->getGenre()) ?>)</span>
+            <h2 class="film-title"><?= htmlspecialchars($filmData['name']) ?> 
+                <span class="film-genre">(<?= htmlspecialchars($filmData['genre']) ?>)</span>
             </h2>
-            <ul class="actors-list">
-                <?php foreach ($filmData['actors'] as $actor): ?>
-                    <li><?= htmlspecialchars($actor['name']) ?></li>
-                <?php endforeach; ?>
-            </ul>
+            <?php if (!empty($filmData['actor_names'])): ?>
+                <p>Acteurs:</p>
+                <ul class="actors-list">
+                    <?php 
+                    $actors = explode(', ', $filmData['actor_names']);
+                    foreach ($actors as $actor): ?>
+                        <li><?= htmlspecialchars($actor) ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php else: ?>
+                <p>Nog geen acteurs gekoppeld</p>
+            <?php endif; ?>
         </div>
     <?php endforeach; ?>
 </div>
@@ -54,4 +63,8 @@ $filmsWithActors = $home->index();
         <p>Koppel een acteur aan een film</p>
         <a href="index.php?page=koppelen" class="btn btn-primary">Koppelen</a>
     </div>
+</div>
+
+<div style="margin-top: 2rem; text-align: center; color: #47A3B5;">
+    <p><strong>Statistieken:</strong> <?= $filmCount ?> films en <?= $actorCount ?> acteurs in de database</p>
 </div>

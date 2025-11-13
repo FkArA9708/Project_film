@@ -3,7 +3,7 @@ class Actor {
     private $id;
     private $name;
     
-  
+    
     public function __construct($name, $id = null) {
     $this->id = $id;
     $this->name = $name;
